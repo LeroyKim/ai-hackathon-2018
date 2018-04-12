@@ -1,3 +1,4 @@
+#nsml: waleedka/modern-deep-learning:dev
 
 """
 Copyright 2018 NAVER Corp.
@@ -20,11 +21,15 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 
-from distutils.core import setup
+# from distutils.core import setup
+from setuptools import setup
 setup(
     name='nsml LSTM kin query',
     version='1.0',
     description='',
     install_requires =[
+            'numpy',
+            'JPype1-py3',
+            'konlpy',
     ]
 )

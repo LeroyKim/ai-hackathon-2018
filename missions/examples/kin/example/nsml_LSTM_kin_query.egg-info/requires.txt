@@ -1,0 +1,3 @@
+numpy
+JPype1-py3
+konlpy

@@ -31,6 +31,9 @@ import nsml
 from nsml import DATASET_PATH, HAS_DATASET, IS_ON_NSML
 from dataset import KinQueryDataset, preprocess
 
+""" Import test """
+from konlpy.tag import Kkma
+from konlpy.utils import pprint
 
 # DONOTCHANGE: They are reserved for nsml
 # This is for nsml leaderboard
@@ -97,6 +100,17 @@ def bias_variable(shape):
     initial = tf.constant(0.1, shape=shape)
     return tf.Variable(initial)
 
+""" Delete it when submit """
+def yeme_accuracy(label, result, total):
+    f = open(label, 'r')
+    index = 0
+    correct = 0
+    for answer in f:
+        if int(answer[0]) == result[index][1]:
+            correct += 1
+        index += 1
+    print(correct/total)
+
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
@@ -107,8 +121,8 @@ if __name__ == '__main__':
 
     # User options
     args.add_argument('--output', type=int, default=1)
-    args.add_argument('--epochs', type=int, default=10)
-    args.add_argument('--batch', type=int, default=2000)
+    args.add_argument('--epochs', type=int, default=128)
+    args.add_argument('--batch', type=int, default=32)
     args.add_argument('--strmaxlen', type=int, default=400)
     args.add_argument('--embedding', type=int, default=8)
     args.add_argument('--threshold', type=float, default=0.5)
@@ -189,3 +203,16 @@ if __name__ == '__main__':
             temp_res = nsml.infer(batch)
             res += temp_res
         print(res)
+        
+    elif config.mode == 'yame':
+        with open(os.path.join(DATASET_PATH, 'test/test_data'), 'rt', encoding='utf-8') as f:
+            queries = f.readlines()
+        res = []
+        for batch in _batch_loader(queries, config.batch):
+            temp_res = nsml.infer(batch)
+            res += temp_res
+        print(res)
+        yeme_accuracy('../sample_data/kin/test/test_label', res, 109)
+        
+        
+        
